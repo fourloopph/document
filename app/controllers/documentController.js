@@ -92,13 +92,15 @@ exports.uploadDocument = function uploadDocument(docfile, next) {
             if (err) next(err, null);
             fs.unlink(tmp_path, function() {
                 if (err) next(err, null);
-                next(null, {
+                 var data = {
+                    DocumentationId: docfile.DocumentId,
                     path: target_path,
                     size: docfile.size,
                     originalname: docfile.originalname,
                     name: docfile.name,
                     extension: docfile.extension
-                });
+                };
+               updatedocument(data);
             });
         });
     }
