@@ -1,0 +1,39 @@
+{
+  "name": "document",
+  "main": "index.js",
+  "version": "0.0.0",
+  "authors": [
+    "juneril <pi.juneril@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "angular-animate": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "~3.3.5",
+    "fontawesome": "~4.3.0",
+    "angular-bootstrap": "~0.13.0",
+    "angular-sanitize": "~1.4.3",
+    "ng-file-upload": "~5.0.9",
+    "ng-file-upload-shim": "~5.0.9",
+    "angular-loading-bar": "~0.8.0",
+    "angular-toastr": "~1.4.1",
+    "angular-busy": "~4.1.3",
+    "ng-table": "~0.7.1",
+    "ngDialog": "~0.4.0"
+  },
+  "resolutions": {
+    "angular-animate": "~1.4.3",
+    "angular": "~1.4.3"
+  }
+}
