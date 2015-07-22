@@ -56,6 +56,7 @@ exports.uploadDocument = function uploadDocument(docfile, next) {
 
 
     var updatedocument = function(data) {
+        console.log(data);
         docDaos.savefile(data, function(err, res) {
             console.log(res);
             next(err, res);

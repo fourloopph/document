@@ -19,6 +19,7 @@ exports.insertDocument = function insertDocument(data, next) {
     var docinsert=mysql.format('INSERT INTO documentation SET ?',docobj);
     db.insertWithId(docinsert,next);
 
+
 };
 
 exports.updateDocument = function updateDocument(data, next) {
@@ -31,7 +32,8 @@ exports.updateDocument = function updateDocument(data, next) {
 
 exports.savefile =function savefile(data,next){
     var sqljob = 'UPDATE documentation SET documentAvailability = ?,documentRelativePath=?,documentUploadDate =?,documentUploadedBy=? WHERE DocumentationId=?';
-    var updatetjob = [ 1, data.target_path,'NOW()','ADMIN',data.DocumentationId];
+    var updatetjob = [ 1, data.path,'NOW()','ADMIN',data.DocumentationId];
+    
     var sqlString = mysql.format(sqljob, updatetjob);
     db.actionQuery(sqlString, next);
 

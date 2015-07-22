@@ -28,7 +28,6 @@ module.exports = function(app, config) {
         .post(function onRequest(req, res, next) {
             var docfile = req.files.file;
             docfile.DocumentId=req.body.ID;
-            console.log(docfile);
             documentCtrl.uploadDocument(docfile,cb.setupResponseCallback(res));
 
         });
