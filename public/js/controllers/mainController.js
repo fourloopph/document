@@ -10,6 +10,7 @@ angular.module('document')
             $scope.isUpdate = false;
             $scope.progressPercentage = 0;
             $scope.files = {};
+            $scope.option = {};
 
 
             documents.getAllDocuments().then(function(data) {
@@ -44,15 +45,14 @@ angular.module('document')
                 className: 'ngdialog-theme-default',
                 scope: $scope
             }).then(function(value) {
-                    console.log('option',$scope.option);
-                console.log('upload: ', $scope.files);
                 if ($scope.files && $scope.files.length) {
                     for (var i = 0; i < $scope.files.length; i++) {
                         var file = $scope.files[i];
                         Upload.upload({
                             url: 'api/1.0/document/upload',
                             fields: {
-                                'ID': id
+                                'ID': id,
+                                'selectType':$scope.option.id
                             },
                             file: file
                         }).progress(function(evt) {

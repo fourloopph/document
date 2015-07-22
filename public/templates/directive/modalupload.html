@@ -3,7 +3,7 @@
     <form>
         <div class="form-group">
             <label for="inputName">Document Type</label>
-            <select ng-model="option.value" class="form-control" >
+            <select ng-model="option.id" class="form-control" >
                 <option value="word">Word</option>
                 <option value ="pdf">PDF</option>
                 <option value ="excel">Excel</option>
@@ -16,5 +16,5 @@
 <div class="ngdialog-buttons">
     <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Cancel</button>
     <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(file)">Upload</button>
-    <button type="button" class="ngdialog-button ngdialog-button-primary" ngf-select ngf-change="uploadFile($files)">Browse</button>
+    <button type="button" class="ngdialog-button ngdialog-button-primary" ngf-select ngf-change="uploadFile($files)" ngf-accept="'image/*,application/pdf'">Browse</button>
 </div>

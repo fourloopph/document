@@ -31,9 +31,9 @@ exports.updateDocument = function updateDocument(data, next) {
 };
 
 exports.savefile =function savefile(data,next){
-    var sqljob = 'UPDATE documentation SET documentAvailability = ?,documentRelativePath=?,documentUploadDate =?,documentUploadedBy=? WHERE DocumentationId=?';
-    var updatetjob = [ 1, data.path,'NOW()','ADMIN',data.DocumentationId];
-    
+    var sqljob = 'UPDATE documentation SET documentAvailability = ?,documentRelativePath=?,documentUploadDate =now(),documentUploadedBy=? WHERE DocumentationId=?';
+    var updatetjob = [ 1, data.path,'ADMIN',data.DocumentationId];
+
     var sqlString = mysql.format(sqljob, updatetjob);
     db.actionQuery(sqlString, next);
 

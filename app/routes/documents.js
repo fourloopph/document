@@ -28,6 +28,8 @@ module.exports = function(app, config) {
         .post(function onRequest(req, res, next) {
             var docfile = req.files.file;
             docfile.DocumentId=req.body.ID;
+            docfile.selectType=req.body.selectType;
+            console.log('body',req.body);
             documentCtrl.uploadDocument(docfile,cb.setupResponseCallback(res));
 
         });
