@@ -59,6 +59,8 @@ angular.module('document')
             })
         };
 
+
+
         $scope.addNew = function() {
             $scope.newDoc = {};
             $scope.isUpdate = false;
@@ -77,6 +79,9 @@ angular.module('document')
                 className: 'ngdialog-theme-default',
                 scope: $scope
             }).then(function() {
+                documents.deleteDocument(id).then(function(){
+                    $scope.refresh();
+                });
 
             });
         };

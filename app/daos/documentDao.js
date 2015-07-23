@@ -4,7 +4,8 @@ var mysql = require('mysql');
 var config = require('../../config/environment/' + env);
 var Database = require('../../app/utils/database').Database;
 var db = new Database(mysql, config);
-var bcrypt = require('bcrypt-nodejs');
+var async = require('async');
+var fs = require('fs');
 
 exports.insertDocument = function insertDocument(data, next) {
     var docobj = {
@@ -40,6 +41,32 @@ exports.savefile = function savefile(data, next) {
 
 exports.deleteDocument = function deleteDocument(id, next) {
 
+  async.waterfall([
+        function(callback) {
+            var sql = 'SELECT documentRelativePath FROM documentation Where DocumentationId ='+id;
+            db.query(sql, function(err, response) {
+                if (err) {
+                    callback(err, null);
+                }
+                
+
+                if(response&&response.length){
+                    console.log(response[0]);
+                    fs.unlink(response[0].documentRelativePath);
+                }
+                callback(null, response);
+            });
+        },
+        function(data, callback) {
+            var sSQL = 'DELETE FROM documentation WHERE DocumentationId ='+id;
+            db.query(sSQL, function(error, resp) {
+                if (error) {
+                    next(error, null);
+                }
+                callback(null,resp);
+            });
+        }
+    ], next);
 
 };
 

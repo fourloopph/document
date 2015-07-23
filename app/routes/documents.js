@@ -12,9 +12,7 @@ module.exports = function(app, config) {
             documentCtrl.updateDocument(req.body, cb.setupResponseCallback(res));
 
         })
-        .delete(function onRequest(req, res) {
-            documentCtrl.deleteDocument(req.params.id, cb.setupResponseCallback(res));
-        })
+        
         .get(function onRequest(req, res) {
             documentCtrl.getallDocument(cb.setupResponseCallback(res));
 
@@ -22,6 +20,9 @@ module.exports = function(app, config) {
     app.route(config.api_version + '/document/:id')
         .get(function onRequest(req, res) {
             documentCtrl.GetDocumentById(req.params.id, cb.setupResponseCallback(res));
+        })
+        .delete(function onRequest(req, res) {
+            documentCtrl.deleteDocument(req.params.id, cb.setupResponseCallback(res));
         });
 
     app.route(config.api_version + '/document/upload')
