@@ -80,6 +80,14 @@ angular.module('document')
             });
         };
 
+        $scope.viewModify = function(id) {
+            documents.getDocumentsById(id).then(function(data) {
+                $scope.newDoc = data.result;
+                $scope.isUpdate = true;
+                $scope.isDisable = false;
+            });
+        };
+
         $scope.searchclick = function() {
             $scope.tableParams.reload();
         };
