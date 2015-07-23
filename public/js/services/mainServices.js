@@ -41,7 +41,7 @@ angular.module('document')
                 var cb = callback || angular.noop;
                 var deferred = $q.defer();
 
-                $http.post('/api/1.0/document/comments', data)
+                $http.post('/api/1.0/document', data)
                     .success(function(data) {
                         deferred.resolve(data);
                         return cb();
@@ -57,7 +57,7 @@ angular.module('document')
                 var cb = callback || angular.noop;
                 var deferred = $q.defer();
 
-                $http.post('/api/1.0/document', data)
+                $http.post('/api/1.0/document/comments', data)
                     .success(function(data) {
                         deferred.resolve(data);
                         return cb();
