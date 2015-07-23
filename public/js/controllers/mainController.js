@@ -189,12 +189,13 @@ angular.module('document')
         };
 
         $scope.preview = function(path) {
-            console.log(path);
+            console.log($window.location.origin + path);
             var modalInstance = $modal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: 'public/templates/directive/viewer.html',
                 size: 'lg',
                 controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+                    path = $window.location.origin + path;
                     $scope.pathUrl = $sce.trustAsResourceUrl('http://docs.google.com/viewer?url=' + path + '&embedded=true');
                     $scope.closeModal = function() {
                         $modalInstance.dismiss('cancel');
