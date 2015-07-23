@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('document')
-    .controller('mainCtrl', function($scope, $filter, $window, $modal, $sce, documents, Upload, ngDialog, ngTableParams) {
+    .controller('mainCtrl', function($scope, $filter, $window, $modal, $sce, toastr, documents, Upload, ngDialog, ngTableParams) {
 
         function init() {
             var docarr = [];
@@ -52,9 +52,19 @@ angular.module('document')
 
         $scope.savedoc = function() {
             console.log('$scope.mainctrl: ', $scope.newDoc);
-            documents.createDocument($scope.newDoc).then(function(data) {
-                $scope.refresh();
-            });
+            if ($scope.isUpdate === true) {
+                documents.updateDocument($scope.newDoc.DocumentationId, $scope.newDoc).then(function(data) {
+                    toastr.success('Record Successfully Updated', 'Record Updated');
+                    $scope.refresh();
+                    $scope.cancel();
+                });
+            } else {
+                documents.createDocument($scope.newDoc).then(function(data) {
+                    toastr.success('Record Successfully Saved', 'Record Saved');
+                    $scope.refresh();
+                    $scope.cancel();
+                });
+            }
         };
 
 

@@ -73,7 +73,7 @@ angular.module('document')
                 var cb = callback || angular.noop;
                 var deferred = $q.defer();
 
-                $http.put('/api/1.0/industry/' + id, data)
+                $http.put('/api/1.0/document/' + id, data)
                     .success(function(data) {
                         deferred.resolve(data);
                         return cb();
