@@ -1,7 +1,8 @@
 'use strict';
 angular.module('document', [
         'angularUtils.directives.dirPagination', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'cgBusy',
-        'ngFileUpload', 'angular-loading-bar', 'toastr', 'ngTable', 'ngDialog', 'validation', 'validation.rule'
+        'ngFileUpload', 'angular-loading-bar', 'toastr', 'ngTable', 'ngDialog', 'validation', 'validation.rule',
+        'angularMoment'
     ])
     .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
         $stateProvider

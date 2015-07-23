@@ -52,7 +52,8 @@ exports.deleteDocument = function deleteDocument(id, next) {
 
                 if (response && response.length) {
                     console.log(response[0]);
-                    fs.unlink(response[0].documentRelativePath);
+                    var delpath ='.'+response[0].documentRelativePath;
+                    fs.unlink(delpath);
                 }
                 callback(null, response);
             });
@@ -89,10 +90,19 @@ exports.saveComments = function saveComments(data, next) {
     var comobj = {
         DocumentationId: data.id,
         comment: data.comment,
-        commentDate: 'now()',
+        commentDate: 'NOW()',
         commentedBy: 'ADMIN'
     }
-    var commentinsert = mysql.format('INSERT INTO doc_comments SET ?', comobj);
-    db.insertWithId(commentinsert, next);
+    var commentinsert = mysql.format('INSERT INTO doc_comments (DocumentationId,comment,commentDate,commentedBy) VALUES (?,?,now(),\'Admin\')');
+      var values = [data.id, data.comment];
+      var sqlString = mysql.format(commentinsert, values);
+    db.insertWithId(sqlString, next);
+
+};
+
+exports.getComments = function getComments(id,next){
+
+    var sql = 'SELECT * FROM doc_comments dc LEFt join documentation dm on dc.DocumentationId=dm.DocumentationId  where dm.DocumentationId ='+id;
+    db.query(sql,next);
 
 };

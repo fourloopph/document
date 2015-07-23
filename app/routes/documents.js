@@ -37,4 +37,9 @@ module.exports = function(app, config) {
             documentCtrl.saveComments(req.body, cb.setupResponseCallback(res));
 
         });
+
+    app.route(config.api_version + '/document/comments/:id')
+        .get(function onRequest(req,res){
+            documentCtrl.getComments(req.params.id,cb.setupResponseCallback(res));
+        })
 };

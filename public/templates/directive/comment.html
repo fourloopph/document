@@ -2,24 +2,19 @@
     <h3 class="modal-title">Preview Document</h3>
 </div>
 <div class="modal-body">
-    <ul data-brackets-id="12674" id="sortable" class="list-unstyled ui-sortable">
-        <strong class="pull-left primary-font">James</strong>
+    <ul data-brackets-id="12674" id="sortable" class="list-unstyled ui-sortable"  ng-repeat="comment in comments">
+        <strong class="pull-left primary-font">{{comment.commentedBy}}</strong>
         <small class="pull-right text-muted">
-	           <span class="glyphicon glyphicon-time"></span>7 mins ago</small>
+	           <span class="glyphicon glyphicon-time"></span> {{comment.commentDate | amTimeAgo}}</small>
         </br>
         <li class="ui-state-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </li>
         </br>
-        <strong class="pull-left primary-font">Taylor</strong>
-        <small class="pull-right text-muted">
-	           <span class="glyphicon glyphicon-time"></span>14 mins ago</small>
-        </br>
-        <li class="ui-state-default">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
     </ul>
 </div>
 <div class="modal-footer">
     <div class="status-upload">
         <form>
-            <textarea placeholder="What are you doing right now?"></textarea>
+            <textarea ng-model="TextCommet.comment" placeholder="What are you doing right now?"></textarea>
             <button class="btn btn-warning" ng-click="closeModal()">Close</button>
             <button class="btn btn-success green" ng-click="postComment()"><i class="fa fa-share"></i> Post Comment</button>
         </form>

@@ -5,6 +5,7 @@ angular.module('document')
 
         function init() {
             var docarr = [];
+            $scope.comments = {};
             $scope.doc = {};
             $scope.docs = {};
             $scope.isUpdate = false;
@@ -16,6 +17,7 @@ angular.module('document')
             $scope.currentPage = 1;
             $scope.pageSize = 10;
             $scope.tableParams = {};
+
 
             $scope.tableParams = new ngTableParams({
                 page: 1, // show first page
@@ -88,13 +90,18 @@ angular.module('document')
                 size: 'lg',
                 controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
 
+                    documents.getcomment(id).then(function(data) {
+                        $scope.comments = data.result;
+
+                    })
+
                     $scope.postComment = function() {
                         var data = {};
                         data.id = id;
                         data.comment = $scope.TextCommet.comment;
                         console.log(data);
 
-                        documents.createDocument(data).then(function(data) {
+                        documents.savecomment(data).then(function(data) {
 
                         });
                     };
@@ -118,6 +125,11 @@ angular.module('document')
                 });
 
             });
+        };
+
+        $scope.download = function(data) {
+            console.log(data);
+            window.open(window.location.origin + data, '_blank');
         };
 
         $scope.viewModify = function(id) {
@@ -187,6 +199,7 @@ angular.module('document')
                 }]
             });
         };
+
 
         $scope.preview = function(path) {
             console.log($window.location.origin + path);
