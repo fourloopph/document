@@ -44,17 +44,13 @@
                         <td data-title="'Availibity'" ng-if="getdoc.documentAvailability != 0" sortable="'documentAvailability'">Yes</td>
                         <td data-title="'Action'">
                             <div class="text-center">
-<<<<<<< HEAD
                                 <a class="btn btn-info btn-xs" ng-hide="getdoc.documentRelativePath == NULL">
-=======
-                                <a class="btn btn-info btn-xs" ng-hide="getdoc.documentAvailability == 0" ng-click="preview(getdoc.documentRelativePath)">
->>>>>>> 92bab21dbc47deae2d69a2e72fc7ac3e66356bfd
                                         Preview
                                     </a>
                                 <a class="btn btn-success btn-xs" ng-click="upload(getdoc.DocumentationId)">
                                        Upload
                                     </a>
-                                <a class="btn btn-warning btn-xs" ng-hide="getdoc.documentRelativePath == NULL">
+                                <a class="btn btn-warning btn-xs" ng-hide="getdoc.documentRelativePath == NULL" ng-click="download(getdoc.documentRelativePath)">
                                        Download
                                     </a>
                             </div>
