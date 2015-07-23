@@ -170,7 +170,7 @@ angular.module('document')
             var modalInstance = $modal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: 'public/templates/directive/modalupload.html',
-                controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+                controller: ['$scope', '$modalInstance','$timeout', function($scope, $modalInstance,$timeout) {
 
                     $scope.progressPercentage = 0;
                     $scope.fileselection = {};
@@ -201,6 +201,9 @@ angular.module('document')
                                     // console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
                                 }).success(function(data, status, headers, config) {
                                     // console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                                    $timeout(function(){
+                                        $modalInstance.dismiss('cancel');
+                                    },1000);
                                 }).error(function(data, status, headers, config) {
                                     // console.log('error status: ' + status);
                                 });
@@ -224,9 +227,31 @@ angular.module('document')
                 animation: $scope.animationsEnabled,
                 templateUrl: 'public/templates/directive/viewer.html',
                 size: 'lg',
-                controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
-                    path = $window.location.origin + path;
-                    $scope.pathUrl = $sce.trustAsResourceUrl('http://docs.google.com/viewer?url=' + path + '&embedded=true');
+                controller: ['$scope', '$modalInstance','PDFViewerService', function($scope, $modalInstance, pdf) {
+
+                    function initLoad() {
+                        path = $window.location.origin + path;
+                        // $scope.pathUrl = $sce.trustAsResourceUrl('http://docs.google.com/viewer?url=' + path + '&embedded=true');
+                        $scope.pathUrl = $sce.trustAsResourceUrl(path);
+
+                        $scope.viewer = pdf.Instance("viewer");
+
+                        $scope.nextPage = function() {
+                            $scope.viewer.nextPage();
+                        };
+
+                        $scope.prevPage = function() {
+                            $scope.viewer.prevPage();
+                        };
+
+                        $scope.pageLoaded = function(curPage, totalPages) {
+                            $scope.currentPage = curPage;
+                            $scope.totalPages = totalPages;
+                        };
+                    }
+
+                    initLoad();
+
                     $scope.closeModal = function() {
                         $modalInstance.dismiss('cancel');
                     };
