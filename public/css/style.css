@@ -178,3 +178,7 @@ li.ui-state-default:last-child {
 .status-upload form button > i {
     margin-right: 7px;
 }
+
+.scrollme {
+    max-height: 200px;
+}
