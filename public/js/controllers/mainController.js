@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('document')
-    .controller('mainCtrl', function($scope, $filter, $window, documents, Upload, ngDialog, ngTableParams) {
+    .controller('mainCtrl', function($scope, $filter, $window, $modal,$sce,documents, Upload, ngDialog, ngTableParams) {
 
         function init() {
             var docarr = [];
@@ -17,7 +17,13 @@ angular.module('document')
             $scope.currentPage = 1;
             $scope.pageSize = 10;
             $scope.tableParams = {};
+<<<<<<< HEAD
             $scope.fileselection={};
+=======
+            $scope.fileselection = {};
+
+
+>>>>>>> 92bab21dbc47deae2d69a2e72fc7ac3e66356bfd
             $scope.tableParams = new ngTableParams({
                 page: 1, // show first page
                 count: 10, // count per page
@@ -162,11 +168,27 @@ angular.module('document')
             if (files && files.length) {
                 $scope.files = files;
                 console.log('$scope.files: ', $scope.files);
-                 $scope.fileselection=0;
-            }else{
-                $scope.fileselection=1;
+                $scope.fileselection = 0;
+            } else {
+                $scope.fileselection = 1;
             }
         };
+
+        $scope.preview = function(path) {
+            console.log(path);
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'public/templates/directive/viewer.html',
+                size: 'lg',
+                controller: ['$scope','$modalInstance', function($scope,$modalInstance) {
+                    $scope.pathUrl = $sce.trustAsResourceUrl('http://docs.google.com/viewer?url=' + path + '&embedded=true');
+                    $scope.closeModal = function() {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+        };
+
 
         init();
     });
