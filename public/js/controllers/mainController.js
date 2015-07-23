@@ -108,28 +108,28 @@ angular.module('document')
                 className: 'ngdialog-theme-default',
                 scope: $scope
             }).then(function(value) {
-                // if ($scope.files && $scope.files.length) {
-                //     for (var i = 0; i < $scope.files.length; i++) {
-                //         var file = $scope.files[i];
-                //         Upload.upload({
-                //             url: 'api/1.0/document/upload',
-                //             fields: {
-                //                 'ID': id,
-                //                 'selectType': $scope.option.id
-                //             },
-                //             file: file
-                //         }).progress(function(evt) {
-                //             $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                //             // console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
-                //         }).success(function(data, status, headers, config) {
-                //             // console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                //         }).error(function(data, status, headers, config) {
-                //             // console.log('error status: ' + status);
-                //         });
-                //     }
-                // } else {
-                //     console.log('wala');
-                // }
+                if ($scope.files && $scope.files.length) {
+                    for (var i = 0; i < $scope.files.length; i++) {
+                        var file = $scope.files[i];
+                        Upload.upload({
+                            url: 'api/1.0/document/upload',
+                            fields: {
+                                'ID': id,
+                                'selectType': $scope.option.id
+                            },
+                            file: file
+                        }).progress(function(evt) {
+                            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            // console.log('progress: ' + $scope.progressPercentage + '% ' + evt.config.file.name);
+                        }).success(function(data, status, headers, config) {
+                            // console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                        }).error(function(data, status, headers, config) {
+                            // console.log('error status: ' + status);
+                        });
+                    }
+                } else {
+                    console.log('wala');
+                }
             });
 
         };
