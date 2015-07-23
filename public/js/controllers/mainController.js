@@ -15,6 +15,7 @@ angular.module('document')
             $scope.currentPage = 1;
             $scope.pageSize = 10;
             $scope.tableParams = {};
+            $scope.fileselection={};
 
 
             $scope.tableParams = new ngTableParams({
@@ -106,8 +107,9 @@ angular.module('document')
             if (files && files.length) {
                 $scope.files = files;
                 console.log('$scope.files: ', $scope.files);
+                 $scope.fileselection=0;
             }else{
-                console.log('no files');
+                $scope.fileselection=1;
             }
         };
 
