@@ -1,6 +1,6 @@
 'use strict';
 angular.module('document', [
-          'ngSanitize', 'ui.router', 'ui.bootstrap', 'cgBusy',
+          'angularUtils.directives.dirPagination','ngSanitize', 'ui.router', 'ui.bootstrap', 'cgBusy',
         'ngFileUpload', 'angular-loading-bar', 'toastr','ngTable','ngDialog'
     ])
     .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {

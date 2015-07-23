@@ -3,14 +3,14 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Documents</div>
             <div class="panel-body">
-                <form>
+                <form ng-submit="savedoc()">
                     <div class="form-group">
                         <label for="inputName">Document Type</label>
-                        <input type="text" class="form-control" id="inputName" placeholder="The Type of Document ">
+                        <input ng-model="newDoc.DocumentType" type="text" class="form-control" id="docType" placeholder="The Type of Document ">
                     </div>
                     <div class="form-group">
                         <label for="inputSlug">Document Name</label>
-                        <input type="text" class="form-control" id="inputSlug" placeholder="The document Name">
+                        <input ng-model="newDoc.DocumentName" type="text" class="form-control" id="docName" placeholder="The document Name">
                     </div>
                     <button type="submit" class="btn btn-warning">Add New Documents</button>
                 </form>
@@ -22,53 +22,44 @@
             <div class="panel-heading">List of Documents</div>
             <div class="panel-body">
                 <div class="form-inline pull-left" role="form">
-                    <button class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
+                    <button class="btn btn-success" ng-click="refresh()"><i class="fa fa-plus"></i> Refresh</button>
                 </div>
                 <div class="form-inline pull-right" role="form">
                     <div class="form-group">
-                        <input id="txtvalue" type="text" class="form-control" placeholder="Search">
+                        <input ng-model="search" id="search" type="text" class="form-control" placeholder="Search" ng-enter="searchclick()">
                     </div>
-                    <button onclick="javascript:searchSubject()" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                    <button class="btn btn-primary" ng-click="searchclick()"><i class="fa fa-search"></i> Search</button>
                 </div>
             </div>
             <!-- Table -->
             <div class="scrollable-area">
-                <table id="tbl_subject" class="table table-hover table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Document Name</th>
-                            <th>Availibity</th>
-                            <th>Action</th>
-                            <th>Use</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="getdoc in docs">
-                        <input type="hidden" ng-model="getdoc.DocumentationId" value="{{getdoc.DocumentationId}}">
-                            <td>{{getdoc.DocumentName}}</td>
-                            <td ng-if="getdoc.documentAvailability == 0">No</td>
-                            <td ng-if="getdoc.documentAvailability != 0">Yes</td>
-                            <td><div class="text-left">
-                                    <a class="btn btn-info btn-xs" ng-hide="getdoc.documentAvailability == 0">
+                <table ng-table="tableParams" class="table table-hover table-responsive">
+                    <tr ng-repeat="getdoc in $data">
+                        <td data-title="'Document Name'" sortable="'DocumentName'">
+                            {{getdoc.DocumentName}}
+                        </td>
+                        <td data-title="'Availibity'" ng-if="getdoc.documentAvailability == 0" sortable="'documentAvailability'">No</td>
+                        <td data-title="'Availibity'" ng-if="getdoc.documentAvailability != 0" sortable="'documentAvailability'">Yes</td>
+                        <td data-title="'Action'">
+                            <div class="text-center">
+                                <a class="btn btn-info btn-xs" ng-hide="getdoc.documentAvailability == 0">
                                         Preview
                                     </a>
-                                    <a class="btn btn-success btn-xs" ng-click="upload(getdoc.DocumentationId)">
+                                <a class="btn btn-success btn-xs" ng-click="upload(getdoc.DocumentationId)">
                                        Upload
                                     </a>
-                                    <a class="btn btn-warning btn-xs" ng-hide="getdoc.documentAvailability == 0">
+                                <a class="btn btn-warning btn-xs" ng-hide="getdoc.documentAvailability == 0">
                                        Download
                                     </a>
-                                </div></td>
-                            <td>
-                                <div class="text-left">
-                                    <input type="checkbox">
-                                </div>
-                            </td>
-                        </tr>
-                       
-                    </tbody>
+                            </div>
+                        </td>
+                        <td data-title="'Use'">
+                            <div class="text-center">
+                                <input type="checkbox">
+                            </div>
+                        </td>
+                    </tr>
                 </table>
-                <div id="pagination" cellspacing="0"></div>
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
 
 module.exports = {
     env : 'development',
-    dbUrl: process.env.DB_URL || '192.168.1.40',
+    dbUrl: process.env.DB_URL || '192.168.1.48',
     db_user: process.env.DB_USER || 'root',
     db_password: process.env.DB_PASSWORD || '',
     db_name: process.env.DB_NAME || 'test',

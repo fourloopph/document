@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('document')
-    .controller('mainCtrl', function($scope, $window, documents, Upload, ngDialog) {
+    .controller('mainCtrl', function($scope, $filter, $window, documents, Upload, ngDialog, ngTableParams) {
 
         function init() {
             var docarr = [];
@@ -11,33 +11,64 @@ angular.module('document')
             $scope.progressPercentage = 0;
             $scope.files = {};
             $scope.option = {};
+            // paginationinit
+            $scope.currentPage = 1;
+            $scope.pageSize = 10;
+            $scope.tableParams = {};
 
 
-            documents.getAllDocuments().then(function(data) {
+            $scope.tableParams = new ngTableParams({
+                page: 1, // show first page
+                count: 10, // count per page
+                sorting: {
+                    name: 'asc' // initial sorting
+                }
+            }, {
+                getData: function($defer, params) {
+                    documents.getAllDocuments().then(function(res) {
+                        var data = res.result;
+                        var orderedData = {};
 
-                $scope.docs = data.result;
+                        if ($scope.search) {
+                            orderedData = $filter('filter')(data, $scope.search);
+                            orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
+                        } else {
+                            orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+                        }
 
+                        params.total(data.length);
+                        $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                    });
+                }
             });
+
+
         }
 
         $scope.refresh = function() {
-            $scope.industries = {};
-            documents.getAllDocuments().then(function(data) {
-                $scope.docs = data;
-            });
+            $scope.tableParams.reload();
+            $scope.search = "";
         };
 
         $scope.savedoc = function() {
-            console.log('$scope.mainctrl: ', $scope.doc);
+            console.log('$scope.mainctrl: ', $scope.newDoc);
+            documents.createDocument($scope.newDoc).then(function(data) {
+                $scope.refresh();
+            })
         };
 
-      
-           
+        $scope.searchclick = function() {
+            $scope.tableParams.reload();
+        };
+
+        // $scope.$watch("search", function() {
+        //     $scope.tableParams.reload();
+        // });
+
 
         $scope.upload = function(id) {
             // console.log('id::',id);
 
-          
             $scope.progressPercentage = 0;
 
             ngDialog.openConfirm({
@@ -52,7 +83,7 @@ angular.module('document')
                             url: 'api/1.0/document/upload',
                             fields: {
                                 'ID': id,
-                                'selectType':$scope.option.id
+                                'selectType': $scope.option.id
                             },
                             file: file
                         }).progress(function(evt) {
@@ -64,6 +95,8 @@ angular.module('document')
                             // console.log('error status: ' + status);
                         });
                     }
+                } else {
+                    console.log('wala');
                 }
             });
 

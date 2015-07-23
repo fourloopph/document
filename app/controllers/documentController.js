@@ -51,11 +51,11 @@ exports.GetDocumentById = function GetDocumentById(id, next) {
 
 exports.uploadDocument = function uploadDocument(docfile, next) {
     // console.log('docfile::',docfile);
-    if (docfile.selectType = 'word') {
+    if (docfile.selectType == 'word') {
         var path = './public/files/word/';
-    } else if (docfile.selectType = 'pdf') {
+    } else if (docfile.selectType == 'pdf') {
         var path = './public/files/pdf/';
-    }else if (docfile.selectType = 'excel'){
+    }else if (docfile.selectType == 'excel'){
         var path = './public/files/excel/';
     }
 
