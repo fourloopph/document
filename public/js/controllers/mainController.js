@@ -159,6 +159,20 @@ angular.module('document')
             });
         };
 
+        $scope.use = function(){
+           var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'public/templates/directive/comment.html',
+                size: 'lg',
+                controller: ['$scope','$modalInstance', function($scope,$modalInstance) {
+
+                    $scope.closeModal = function() {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+       };
+
 
         init();
     });
