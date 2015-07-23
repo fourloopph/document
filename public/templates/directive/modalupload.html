@@ -16,11 +16,11 @@
           <button type="button" class="ngdialog-button ngdialog-button-primary"  ngf-select ngf-change="uploadFile($files)" ngf-accept="'application/xlsx'" ng-if="option.id=='excel'">Browse</button>
         
         <!-- loader -->
-        <p ng-hide="fileselection!=1">Select file with correct format for {{option.id}}</p>
+        <p ng-hide="fileselection!=1" class="bs-callout-danger">Select file with correct format for {{option.id}}</p>
         <progressbar animate="false" value="progressPercentage" type="success"><b>{{progressPercentage}}%</b></progressbar>
     </form>
 </div>
 <div class="ngdialog-buttons">
     <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Cancel</button>
-    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm()" ng-hide=" fileselection!=0">Upload</button>
+    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(file)" ng-hide=" fileselection!=0">Upload</button>
 </div>
