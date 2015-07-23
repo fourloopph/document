@@ -4,6 +4,13 @@ angular.module('document')
     .controller('mainCtrl', function($scope, $filter, $window, $modal, $sce, toastr, documents, Upload, ngDialog, ngTableParams) {
 
         function init() {
+            $scope.$on('scrollbar.show', function() {
+                console.log('Scrollbar show');
+            });
+            $scope.$on('scrollbar.hide', function() {
+                console.log('Scrollbar hide');
+            });
+
             var docarr = [];
             $scope.comments = {};
             $scope.doc = {};
@@ -71,6 +78,7 @@ angular.module('document')
 
 
 
+
         $scope.addNew = function() {
             $scope.newDoc = {};
             $scope.isUpdate = false;
@@ -102,6 +110,10 @@ angular.module('document')
                         console.log(data);
 
                         documents.savecomment(data).then(function(data) {
+                            documents.getcomment(id).then(function(data) {
+                                $scope.comments = data.result;
+
+                            })
 
                         });
                     };
