@@ -8,11 +8,6 @@ module.exports = function(app, config) {
         .post(function onRequest(req, res) {
             documentCtrl.insertDocument(req.body, cb.setupResponseCallback(res));
         })
-        .put(function onRequest(req, res) {
-            documentCtrl.updateDocument(req.body, cb.setupResponseCallback(res));
-
-        })
-
         .get(function onRequest(req, res) {
             documentCtrl.getallDocument(cb.setupResponseCallback(res));
 
@@ -23,20 +18,28 @@ module.exports = function(app, config) {
         })
         .delete(function onRequest(req, res) {
             documentCtrl.deleteDocument(req.params.id, cb.setupResponseCallback(res));
+        })
+        .put(function onRequest(req, res) {
+            documentCtrl.updateDocument(req.body, cb.setupResponseCallback(res));
         });
 
     app.route(config.api_version + '/document/upload')
         .post(function onRequest(req, res, next) {
             var docfile = req.files.file;
-            docfile.DocumentId=req.body.ID;
-            docfile.selectType=req.body.selectType;
-            console.log('body',req.body);
-            documentCtrl.uploadDocument(docfile,cb.setupResponseCallback(res));
+            docfile.DocumentId = req.body.ID;
+            docfile.selectType = req.body.selectType;
+            console.log('body', req.body);
+            documentCtrl.uploadDocument(docfile, cb.setupResponseCallback(res));
 
         });
     app.route(config.api_version + '/document/comments')
-    .post(function onRequest(req,res){
-            documentCtrl.saveComments(req.body,cb.setupResponseCallback(res));
+        .post(function onRequest(req, res) {
+            documentCtrl.saveComments(req.body, cb.setupResponseCallback(res));
 
-    });
+        });
+
+    app.route(config.api_version + '/document/comments/:id')
+        .get(function onRequest(req,res){
+            documentCtrl.getComments(req.params.id,cb.setupResponseCallback(res));
+        })
 };

@@ -57,6 +57,12 @@ exports.saveComments = function saveComments(data, next) {
 
 };
 
+exports.getComments = function getComments(id,next){
+    docDaos.getComments(id,function(err,res){
+        next(err,res);
+    });
+}
+
 exports.uploadDocument = function uploadDocument(docfile, next) {
     // console.log('docfile::',docfile);
     if (docfile.selectType == 'word') {
