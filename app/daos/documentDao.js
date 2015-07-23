@@ -30,7 +30,7 @@ exports.updateDocument = function updateDocument(data, next) {
 };
 
 exports.savefile = function savefile(data, next) {
-    console.log('thepath is',data.path);
+    console.log('thepath is', data.path);
     var sqljob = 'UPDATE documentation SET documentAvailability = ?,documentRelativePath=?,documentUploadDate =now(),documentUploadedBy=? WHERE DocumentationId=?';
     var updatetjob = [1, data.path, 'ADMIN', data.DocumentationId];
 
@@ -41,16 +41,16 @@ exports.savefile = function savefile(data, next) {
 
 exports.deleteDocument = function deleteDocument(id, next) {
 
-  async.waterfall([
+    async.waterfall([
         function(callback) {
-            var sql = 'SELECT documentRelativePath FROM documentation Where DocumentationId ='+id;
+            var sql = 'SELECT documentRelativePath FROM documentation Where DocumentationId =' + id;
             db.query(sql, function(err, response) {
                 if (err) {
                     callback(err, null);
                 }
-                
 
-                if(response&&response.length){
+
+                if (response && response.length) {
                     console.log(response[0]);
                     fs.unlink(response[0].documentRelativePath);
                 }
@@ -58,12 +58,12 @@ exports.deleteDocument = function deleteDocument(id, next) {
             });
         },
         function(data, callback) {
-            var sSQL = 'DELETE FROM documentation WHERE DocumentationId ='+id;
+            var sSQL = 'DELETE FROM documentation WHERE DocumentationId =' + id;
             db.query(sSQL, function(error, resp) {
                 if (error) {
                     next(error, null);
                 }
-                callback(null,resp);
+                callback(null, resp);
             });
         }
     ], next);
@@ -81,5 +81,18 @@ exports.GetDocumentById = function GetDocumentById(id, next) {
 
     var sql = 'SELECT * FROM documentation WHERE DocumentationId = ' + id;
     db.query(sql, next);
+
+};
+
+exports.saveComments = function saveComments(data, next) {
+    console.log(data);
+    var comobj = {
+        DocumentationId: data.id,
+        comment: data.comment,
+        commentDate: 'now()',
+        commentedBy: 'ADMIN'
+    }
+    var commentinsert = mysql.format('INSERT INTO doc_comments SET ?', comobj);
+    db.insertWithId(commentinsert, next);
 
 };

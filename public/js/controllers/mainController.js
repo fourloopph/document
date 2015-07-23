@@ -12,13 +12,12 @@ angular.module('document')
             $scope.progressPercentage = 0;
             $scope.files = {};
             $scope.option = {};
+            $scope.TextCommet={};
             // paginationinit
             $scope.currentPage = 1;
             $scope.pageSize = 10;
             $scope.tableParams = {};
             $scope.fileselection={};
-
-
             $scope.tableParams = new ngTableParams({
                 page: 1, // show first page
                 count: 10, // count per page
@@ -56,7 +55,7 @@ angular.module('document')
             console.log('$scope.mainctrl: ', $scope.newDoc);
             documents.createDocument($scope.newDoc).then(function(data) {
                 $scope.refresh();
-            })
+            });
         };
 
 
@@ -72,6 +71,26 @@ angular.module('document')
             $scope.isUpdate = false;
             $scope.isDisable = true;
         };
+        $scope.comment= function(id){
+             ngDialog.openConfirm({
+                templateUrl: 'public/templates/directive/commentModal.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            }).then(function() {
+                var data={};
+                data.id=id;
+                data.comment=$scope.TextCommet.comment;
+                console.log(data);
+
+                documents.createDocument(data).then(function(data){
+                        
+                });
+              
+
+            });
+
+        };
+
 
         $scope.delete = function(id) {
             ngDialog.openConfirm({

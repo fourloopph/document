@@ -34,4 +34,9 @@ module.exports = function(app, config) {
             documentCtrl.uploadDocument(docfile,cb.setupResponseCallback(res));
 
         });
+    app.route(config.api_version + '/document/comments')
+    .post(function onRequest(req,res){
+            documentCtrl.saveComments(req.body,cb.setupResponseCallback(res));
+
+    });
 };
