@@ -12,7 +12,7 @@ module.exports = function(app, config) {
             documentCtrl.updateDocument(req.body, cb.setupResponseCallback(res));
 
         })
-        
+
         .get(function onRequest(req, res) {
             documentCtrl.getallDocument(cb.setupResponseCallback(res));
 

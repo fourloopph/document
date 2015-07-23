@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('document')
-    .controller('mainCtrl', function($scope, $filter, $window, documents, Upload, ngDialog, ngTableParams) {
+    .controller('mainCtrl', function($scope, $filter, $window, $modal, $sce, documents, Upload, ngDialog, ngTableParams) {
 
         function init() {
             var docarr = [];
@@ -12,12 +12,14 @@ angular.module('document')
             $scope.progressPercentage = 0;
             $scope.files = {};
             $scope.option = {};
-            $scope.TextCommet={};
+            $scope.TextCommet = {};
             // paginationinit
             $scope.currentPage = 1;
             $scope.pageSize = 10;
             $scope.tableParams = {};
-            $scope.fileselection={};
+            $scope.fileselection = {};
+
+
             $scope.tableParams = new ngTableParams({
                 page: 1, // show first page
                 count: 10, // count per page
@@ -71,24 +73,29 @@ angular.module('document')
             $scope.isUpdate = false;
             $scope.isDisable = true;
         };
-        $scope.comment= function(id){
-             ngDialog.openConfirm({
-                templateUrl: 'public/templates/directive/commentModal.html',
-                className: 'ngdialog-theme-default',
-                scope: $scope
-            }).then(function() {
-                var data={};
-                data.id=id;
-                data.comment=$scope.TextCommet.comment;
-                console.log(data);
 
-                documents.createDocument(data).then(function(data){
+        $scope.comment = function(id) {
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'public/templates/directive/comment.html',
+                size: 'lg',
+                controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+                    $scope.postComment = function() {
+                        var data = {};
+                        data.id = id;
+                        data.comment = $scope.TextCommet.comment;
+                        console.log(data);
 
-                });
-              
+                        documents.savecomment(data).then(function(data) {
 
+                        });
+                    };
+
+                    $scope.closeModal = function() {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
             });
-
         };
 
 
@@ -98,7 +105,7 @@ angular.module('document')
                 className: 'ngdialog-theme-default',
                 scope: $scope
             }).then(function() {
-                documents.deleteDocument(id).then(function(){
+                documents.deleteDocument(id).then(function() {
                     $scope.refresh();
                 });
 
@@ -106,14 +113,8 @@ angular.module('document')
         };
 
         $scope.download = function(data) {
-            ngDialog.openConfirm({
-                templateUrl: 'public/templates/directive/downloadModal.html',
-                className: 'ngdialog-theme-default',
-                scope: $scope
-            }).then(function() {
-                console.log(data);
-
-            });
+            console.log(data);
+                window.open(window.location.origin+data,'_blank');
         };
 
         $scope.viewModify = function(id) {
@@ -177,6 +178,22 @@ angular.module('document')
             }else{
                 $scope.fileselection=1;
             }
+        };
+
+
+        $scope.preview = function(path) {
+            console.log(path);
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'public/templates/directive/viewer.html',
+                size: 'lg',
+                controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+                    $scope.pathUrl = $sce.trustAsResourceUrl('http://docs.google.com/viewer?url=http://localhost:3000/public/files/word/e936ae5c81c7b33927b4ff932aea2c99.docx&embedded=true');
+                    $scope.closeModal = function() {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
         };
 
         init();

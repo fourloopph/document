@@ -60,16 +60,20 @@ exports.saveComments = function saveComments(data, next) {
 exports.uploadDocument = function uploadDocument(docfile, next) {
     // console.log('docfile::',docfile);
     if (docfile.selectType == 'word') {
-        var path = './public/files/word/';
+        // var path = './public/files/word/';
+         var path2='/public/files/word/';
     } else if (docfile.selectType == 'pdf') {
-        var path = './public/files/pdf/';
+        // var path = './public/files/pdf/';
+         var path2='/public/files/pdf/';
     } else if (docfile.selectType == 'excel') {
-        var path = './public/files/excel/';
+        // var path = './public/files/excel/';
+        var path2='/public/files/excel/';
     }
 
     var tmp_path = docfile.path;
 
-    var target_path = path + docfile.name;
+    var target_path = '.'+path2 + docfile.name;
+    var paths=path2+docfile.name;
 
 
     var updatedocument = function(data) {
@@ -82,10 +86,10 @@ exports.uploadDocument = function uploadDocument(docfile, next) {
 
     };
 
-    if (!fsx.existsSync(path)) {
+    if (!fsx.existsSync('.'+path2)) {
 
 
-        fsx.ensureDirSync(path);
+        fsx.ensureDirSync('.'+path2);
         fs.rename(tmp_path, target_path, function(err) {
             if (err) next(err, null);
             // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
@@ -93,7 +97,7 @@ exports.uploadDocument = function uploadDocument(docfile, next) {
                 if (err) next(err, null);
                 var data = {
                     DocumentationId: docfile.DocumentId,
-                    path: target_path,
+                    path: paths,
                     size: docfile.size,
                     originalname: docfile.originalname,
                     name: docfile.name,
@@ -112,7 +116,7 @@ exports.uploadDocument = function uploadDocument(docfile, next) {
                 if (err) next(err, null);
                 var data = {
                     DocumentationId: docfile.DocumentId,
-                    path: target_path,
+                    path: paths,
                     size: docfile.size,
                     originalname: docfile.originalname,
                     name: docfile.name,
