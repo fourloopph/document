@@ -102,16 +102,15 @@ angular.module('document')
                         data.id = id;
                         data.comment = $scope.TextCommet.comment;
                         console.log(data);
-                        var anchorID;
-                        documents.savecomment(data).then(function(data) {
-                            anchorID = data.result;
+                        documents.savecomment(data).then(function(saveResp) {
                             documents.getcomment(id).then(function(data) {
+                                $scope.TextCommet.comment=null;
                                 $scope.comments = data.result;
-                                var newHash = 'anchor' + anchorID;
+                                var newHash = 'anchor' + saveResp.result;
                                 if ($location.hash() !== newHash) {
                                     // set the $location.hash to `newHash` and
                                     // $anchorScroll will automatically scroll to it
-                                    $location.hash('anchor' + anchorID);
+                                    $location.hash('anchor' + saveResp.result);
                                 } else {
                                     // call $anchorScroll() explicitly,
                                     // since $location.hash hasn't changed
