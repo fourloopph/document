@@ -41,6 +41,22 @@ angular.module('document')
                 var cb = callback || angular.noop;
                 var deferred = $q.defer();
 
+                $http.post('/api/1.0/document/comments', data)
+                    .success(function(data) {
+                        deferred.resolve(data);
+                        return cb();
+                    })
+                    .error(function(err) {
+                        deferred.reject(err);
+                        return cb(err);
+                    }.bind(this));
+
+                return deferred.promise;
+            },
+            savecomment: function(data, callback) {
+                var cb = callback || angular.noop;
+                var deferred = $q.defer();
+
                 $http.post('/api/1.0/document', data)
                     .success(function(data) {
                         deferred.resolve(data);
@@ -73,7 +89,7 @@ angular.module('document')
                 var cb = callback || angular.noop;
                 var deferred = $q.defer();
 
-                $http.delete('/api/1.0/industry/' + id, data)
+                $http.delete('/api/1.0/document/' + id)
                     .success(function(data) {
                         deferred.resolve(data);
                         return cb();

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('document')
-    .controller('mainCtrl', function($scope, $filter, $window, $modal,$sce,documents, Upload, ngDialog, ngTableParams) {
+    .controller('mainCtrl', function($scope, $filter, $window, $modal, $sce, documents, Upload, ngDialog, ngTableParams) {
 
         function init() {
             var docarr = [];
@@ -12,12 +12,12 @@ angular.module('document')
             $scope.progressPercentage = 0;
             $scope.files = {};
             $scope.option = {};
+            $scope.TextCommet = {};
             // paginationinit
             $scope.currentPage = 1;
             $scope.pageSize = 10;
             $scope.tableParams = {};
             $scope.fileselection = {};
-
 
             $scope.tableParams = new ngTableParams({
                 page: 1, // show first page
@@ -56,8 +56,10 @@ angular.module('document')
             console.log('$scope.mainctrl: ', $scope.newDoc);
             documents.createDocument($scope.newDoc).then(function(data) {
                 $scope.refresh();
-            })
+            });
         };
+
+
 
         $scope.addNew = function() {
             $scope.newDoc = {};
@@ -71,12 +73,41 @@ angular.module('document')
             $scope.isDisable = true;
         };
 
+        $scope.comment = function(id) {
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'public/templates/directive/comment.html',
+                size: 'lg',
+                controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
+
+                    $scope.postComment = function() {
+                        var data = {};
+                        data.id = id;
+                        data.comment = $scope.TextCommet.comment;
+                        console.log(data);
+
+                        documents.createDocument(data).then(function(data) {
+
+                        });
+                    };
+
+                    $scope.closeModal = function() {
+                        $modalInstance.dismiss('cancel');
+                    };
+                }]
+            });
+        };
+
+
         $scope.delete = function(id) {
             ngDialog.openConfirm({
                 templateUrl: 'public/templates/directive/deleteModal.html',
                 className: 'ngdialog-theme-default',
                 scope: $scope
             }).then(function() {
+                documents.deleteDocument(id).then(function() {
+                    $scope.refresh();
+                });
 
             });
         };
@@ -150,7 +181,7 @@ angular.module('document')
                 animation: $scope.animationsEnabled,
                 templateUrl: 'public/templates/directive/viewer.html',
                 size: 'lg',
-                controller: ['$scope','$modalInstance', function($scope,$modalInstance) {
+                controller: ['$scope', '$modalInstance', function($scope, $modalInstance) {
                     $scope.pathUrl = $sce.trustAsResourceUrl('http://docs.google.com/viewer?url=' + path + '&embedded=true');
                     $scope.closeModal = function() {
                         $modalInstance.dismiss('cancel');
@@ -158,21 +189,6 @@ angular.module('document')
                 }]
             });
         };
-
-        $scope.use = function(){
-           var modalInstance = $modal.open({
-                animation: $scope.animationsEnabled,
-                templateUrl: 'public/templates/directive/comment.html',
-                size: 'lg',
-                controller: ['$scope','$modalInstance', function($scope,$modalInstance) {
-
-                    $scope.closeModal = function() {
-                        $modalInstance.dismiss('cancel');
-                    };
-                }]
-            });
-       };
-
 
         init();
     });

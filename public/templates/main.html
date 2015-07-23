@@ -50,14 +50,14 @@
                                 <a class="btn btn-success btn-xs" ng-click="upload(getdoc.DocumentationId)">
                                        Upload
                                     </a>
-                                <a class="btn btn-warning btn-xs" ng-hide="getdoc.documentAvailability == 0">
+                                <a class="btn btn-warning btn-xs" ng-hide="getdoc.documentRelativePath == NULL">
                                        Download
                                     </a>
                             </div>
                         </td>
                         <td data-title="'Use'">
                             <div class="text-center">
-                                <input type="checkbox" ng-click="use()">
+                                <input type="checkbox" ng-click="comment(getdoc.DocumentationId)">
                             </div>
                         </td>
                         <td data-title="">
