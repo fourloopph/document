@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-inline pull-right" role="form">
                     <div class="form-group">
-                        <input ng-model="search" id="search" type="text" class="form-control" placeholder="Search" ng-enter="searchclick()">
+                        <input ng-model="search" id="search" type="text" class="form-control" placeholder="Search" ng-keyup="$event.keyCode == 13 ? searchclick() : null">
                     </div>
                     <button class="btn btn-primary" ng-click="searchclick()"><i class="fa fa-search"></i> Search</button>
                 </div>
@@ -35,7 +35,7 @@
             <div class="scrollable-area">
                 <table ng-table="tableParams" class="table table-hover table-responsive">
                     <tr ng-repeat="getdoc in $data">
-                        <td data-title="'Document Name'" sortable="'DocumentName'">
+                        <td  data-title="'Document Name'" sortable="'DocumentName'">
                             {{getdoc.DocumentName}}
                         </td>
                         <td data-title="'Availibity'" ng-if="getdoc.documentAvailability == 0" sortable="'documentAvailability'">No</td>
