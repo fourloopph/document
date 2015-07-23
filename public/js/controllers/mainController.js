@@ -8,6 +8,7 @@ angular.module('document')
             $scope.doc = {};
             $scope.docs = {};
             $scope.isUpdate = false;
+            $scope.isDisable = true;
             $scope.progressPercentage = 0;
             $scope.files = {};
             $scope.option = {};
@@ -55,6 +56,28 @@ angular.module('document')
             documents.createDocument($scope.newDoc).then(function(data) {
                 $scope.refresh();
             })
+        };
+
+        $scope.addNew = function() {
+            $scope.newDoc = {};
+            $scope.isUpdate = false;
+            $scope.isDisable = false;
+        };
+
+        $scope.cancel = function() {
+            $scope.newDoc = {};
+            $scope.isUpdate = false;
+            $scope.isDisable = true;
+        };
+
+        $scope.delete = function(id) {
+            ngDialog.openConfirm({
+                templateUrl: 'public/templates/directive/deleteModal.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            }).then(function() {
+
+            });
         };
 
         $scope.searchclick = function() {
