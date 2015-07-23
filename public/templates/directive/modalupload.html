@@ -19,7 +19,7 @@
             <div class="col-sm-9">
                 <button type="button" class="btn btn-primary" ngf-select ngf-change="uploadFile($files)" ngf-accept="'application/pdf'" ng-if="option.id=='pdf'">Browse</button>
                 <button type="button" class="btn btn-primary" ngf-select ngf-change="uploadFile($files)" ngf-accept="'.doc,.docx'" ng-if="option.id=='word'">Browse</button>
-                <button type="button" class="btn btn-primary" ngf-select ngf-change="uploadFile($files)" ngf-accept="'application/xlsx'" ng-if="option.id=='excel'">Browse</button>
+                <button type="button" class="btn btn-primary" ngf-select ngf-change="uploadFile($files)" ngf-accept="'.xlsx,.xls,.csv'" ng-if="option.id=='excel'">Browse</button>
             </div>
         </div>
     </form>
