@@ -83,7 +83,7 @@ angular.module('document')
 
         $scope.viewModify = function(id) {
             documents.getDocumentsById(id).then(function(data) {
-                $scope.newDoc = data.result;
+                $scope.newDoc = data.result[0];
                 $scope.isUpdate = true;
                 $scope.isDisable = false;
             });
