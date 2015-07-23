@@ -2,7 +2,7 @@
     <h3 class="modal-title">Preview Document</h3>
 </div>
 <div class="modal-body " style="height: 200px;overflow-y: scroll;">
-    <ul data-brackets-id="12674" id="sortable" class="list-unstyled ui-sortable" ng-repeat="comment in comments">
+    <ul data-brackets-id="{{comment.ID}}" id="anchor{{comment.ID}}" class="list-unstyled ui-sortable" ng-repeat="comment in comments">
         <strong class="pull-left primary-font">{{comment.commentedBy}}</strong>
         <small class="pull-right text-muted">
                <span class="glyphicon glyphicon-time"></span> {{comment.commentDate | amTimeAgo}}</small>

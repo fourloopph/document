@@ -1,15 +1,9 @@
 'use strict';
 
 angular.module('document')
-    .controller('mainCtrl', function($scope, $filter, $window, $modal, $sce, toastr, documents, Upload, ngDialog, ngTableParams) {
+    .controller('mainCtrl', function($anchorScroll, $location,$scope, $filter, $window, $modal, $sce, toastr, documents, Upload, ngDialog, ngTableParams) {
 
         function init() {
-            $scope.$on('scrollbar.show', function() {
-                console.log('Scrollbar show');
-            });
-            $scope.$on('scrollbar.hide', function() {
-                console.log('Scrollbar hide');
-            });
 
             var docarr = [];
             $scope.comments = {};
@@ -108,10 +102,22 @@ angular.module('document')
                         data.id = id;
                         data.comment = $scope.TextCommet.comment;
                         console.log(data);
-
+                        var anchorID;
                         documents.savecomment(data).then(function(data) {
+                            anchorID = data.result;
                             documents.getcomment(id).then(function(data) {
                                 $scope.comments = data.result;
+                                var newHash = 'anchor' + anchorID;
+                                if ($location.hash() !== newHash) {
+                                    // set the $location.hash to `newHash` and
+                                    // $anchorScroll will automatically scroll to it
+                                    $location.hash('anchor' + anchorID);
+                                } else {
+                                    // call $anchorScroll() explicitly,
+                                    // since $location.hash hasn't changed
+                                    $anchorScroll();
+                                }
+
 
                             })
 
